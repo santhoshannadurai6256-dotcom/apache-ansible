@@ -1,6 +1,6 @@
 ---
 - name: Install Apache2 and deploy custom website
-  hosts: webservers
+  hosts: all
   become: yes
   tasks:
     - name: Update apt cache
