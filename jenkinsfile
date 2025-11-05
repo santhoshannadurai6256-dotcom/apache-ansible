@@ -26,7 +26,7 @@ pipeline {
             steps {
                 echo "Verifying website..."
                 sh '''
-                    curl -I http://65.0.122.7 | grep "200 OK" || echo "Website not reachable"
+                    curl -I http://3.7.70.77 | grep "200 OK" || echo "Website not reachable"
                 '''
             }
         }
