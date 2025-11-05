@@ -1,1 +1,44 @@
+pipeline {
+    agent any
+
+    environment {
+        ANSIBLE_HOST_KEY_CHECKING = 'False'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo "Fetching latest code from GitHub..."
+                git branch: 'main', url: 'https://github.com/santhoshannadurai6256-dotcom/apache-ansible.git'
+            }
+        }
+
+        stage('Run Ansible Playbook') {
+            steps {
+                echo "Deploying Apache2 and website..."
+                sh '''
+                    ansible-playbook -i inventory install_apache.yml
+                '''
+            }
+        }
+
+        stage('Verification') {
+            steps {
+                echo "Verifying website..."
+                sh '''
+                    curl -I http://65.0.122.7 | grep "200 OK" || echo "Website not reachable"
+                '''
+            }
+        }
+    }
+
+    post {
+        success {
+            echo '✅ Deployment successful! Visit your server IP in browser.'
+        }
+        failure {
+            echo '❌ Deployment failed. Check console output.'
+        }
+    }
+}
 
